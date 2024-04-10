@@ -1,49 +1,59 @@
- 
+//const contenedorTarjetas = document.querySelector("#productos-container");
 
-const  contenedor = document.querySelector("#productos-container");
+/** Crea las tarjetas de productos teniendo en cuenta la lista en bicicletas.js */
+// const crearTarjetasProductosInicio = (arr) => {
+//   contenedorTarjetas.innerHTML = "";
+//     let nuevaBicicleta;
+//     for (const item of arr){
+//       const {  img, nombre, precio, id } = item;
+//       nuevaBicicleta = `
+//       <div class="tarjeta-index">
+//     <img src="../img/productos${img}">
+//     <h3>${nombre}</h3>
+//     <p class="precio">$${precio}</p>
+//     <button id="${id}">Agregar al carrito</button>`
+//     contenedorTarjetas.appendChild(nuevaBicicleta);
+//     nuevaBicicleta.getElementsByTagName("button")[0].addEventListener("click",() => agregarAlCarrito(producto))
+//     contenedorTarjetas.innerHTML += nuevaBicicleta;
+//   }};
 
-const renderServicios = (arr) => {
-  contenedor.innerHTML = "";
-  let html;
-  for (const item of arr) {
-    const { id, nombre, img, precio } = item;
-    html = `  
-        <div class="card">
-      		<div class="card-image">
-        	<img src="./img/productos/${img}">
-        	<span class="card-title">${nombre}</span>
-       </div>
-     	 <div class="card-content"> 
-     		<p>$${precio}</p>
-      </div>
-      <div class="card-action">
-      <button>Agregar al carrito</button>
-      </div>
-     </div>
-     `;
-     contenedor.innerHTML += html;
-  }
-};
+const contenedorTarjetas = document.getElementById("productos-container");
 
-
-
- fetch('./db/db.json')
- .then(response=> response.json())
- .then(data=>{
-   console.log(data);
-   serviciosDB=data
-   console.log(serviciosDB);
-   renderServicios(serviciosDB)
- });
-
+/** Crea las tarjetas de productos teniendo en cuenta la lista en bicicletas.js */
+function crearTarjetasProductosInicio(productos){
+  productos.forEach(producto => {
+    const nuevaBicicleta = document.createElement("div");
+    nuevaBicicleta.classList = "tarjeta-index"
+    nuevaBicicleta.innerHTML = `
+    <img src="../img/productos/${producto.id}.jpg" alt="Bicicleta 1">
+    <h3>${producto.nombre}</h3>
+    <p class="precio">$${producto.precio}</p>
+    <button>Agregar al carrito</button>`
+    contenedorTarjetas.appendChild(nuevaBicicleta);
+    nuevaBicicleta.getElementsByTagName("button")[0].addEventListener("click",() => agregarAlCarrito(producto))
+  });
+}
+// crearTarjetasProductosInicio(bicicletas);
 
 let bicicletasDB = []
 
-const API_URL = "../db/db.json"
+// fetch('./db/db.json')
+// .then(response=> response.json())
+// .then(data=>{
+//   console.log(data);
+//   serviciosDB=data
+//   console.log(serviciosDB);
+//   crearTarjetasProductosInicio(bicicletasDB)
+// });
+
+const API_URL = ("../db/db.json")
 
 const getData = async (url) => {
-  const response = await fetch(url);
-  const data  =  await response.json();
-  bicicletasDB = data;
-  renderServicios(bicicletasDB)
+ const response  = await fetch(url);
+ const data  =  await response.json();
+ bicicletasDB = data;
+ console.log(bicicletasDB);
+ crearTarjetasProductosInicio(bicicletasDB)
 }
+getData(API_URL)
+
